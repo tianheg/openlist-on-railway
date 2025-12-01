@@ -18,5 +18,5 @@ EXPOSE 5244
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Run OpenList server
-CMD ["/opt/openlist/openlist"]
+CMD ["/opt/openlist/openlist", "server"]
 
