@@ -8,9 +8,6 @@ RUN apk add --no-cache su-exec || true
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Set data directory
-ENV OPENLIST_DATA_DIR=/opt/openlist/data
-
 # Expose default OpenList port
 EXPOSE 5244
 
@@ -19,4 +16,3 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 # Run OpenList server
 CMD ["/opt/openlist/openlist", "server"]
-
