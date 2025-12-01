@@ -1,26 +1,23 @@
-# 使用官方 OpenList 镜像作为基础
 FROM openlistteam/openlist:latest
 
-# 切换到 root 用户以执行权限修复
 USER root
 
-# 创建数据目录并设置正确的权限
-# OpenList v4.1.0+ 使用 UID 1001 和 GID 1001 的 openlist 用户
+# 安装 su-exec（用于切换用户）
+RUN apk add --no-cache su-exec
+
+# 复制 entrypoint 脚本
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# 创建基础目录结构
 RUN mkdir -p /opt/openlist/data && \
-    chown -R 1001:1001 /opt/openlist/data && \
-    chmod -R 755 /opt/openlist/data
+    chown -R 1001:1001 /opt/openlist/data
 
-# 确保配置文件目录也存在（如果需要）
-RUN mkdir -p /opt/openlist/config && \
-    chown -R 1001:1001 /opt/openlist/config && \
-    chmod -R 755 /opt/openlist/config
-
-# 切换回 OpenList 默认用户（UID 1001）
+# 确保 entrypoint 可执行
 USER 1001:1001
 
-# 健康检查（Railway 推荐配置）
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:5244/ping || exit 1
+# 设置 entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
 
-# 容器启动命令（保持与官方镜像一致）
+# 保持与官方镜像相同的启动命令
 CMD ["./openlist", "--no-prefix", "server"]
