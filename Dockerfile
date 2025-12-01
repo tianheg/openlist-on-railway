@@ -23,4 +23,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:5244/ping || exit 1
 
 # 容器启动命令（保持与官方镜像一致）
-CMD ["/usr/bin/openlist", "--no-prefix", "server"]
+CMD ["./openlist", "--no-prefix", "server"]
