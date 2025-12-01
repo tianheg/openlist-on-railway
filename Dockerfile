@@ -1,7 +1,4 @@
-# OpenList on Railway
-# Based on official OpenList image with Railway volume permission fixes
-
-FROM openlist/openlist:latest
+FROM openlistteam/openlist
 
 # Install su-exec for user switching (if not already present)
 USER root
